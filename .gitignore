@@ -1,5 +1,10 @@
 node_modules/
+dist/
 pkgbuild/src/
 pkgbuild/pkg/
 *.pkg.tar*
+*.AppImage
+*.rpm
 *.log
+pnpm-lock.yaml
+package-lock.json

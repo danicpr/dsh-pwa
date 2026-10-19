@@ -1,12 +1,15 @@
-# Maintainer: dev
+# Maintainer: dev <dev@cachypc>
 pkgname=dsh-pwa
 pkgver=1.2.0
 pkgrel=1
 pkgdesc="Dedicated Electron PWA wrapper for DeepSeek Harness Web with 100% Wallpaper Engine compatibility and System Tray support"
 arch=('any')
-url="https://github.com/deepseek-ai"
+url="http://127.0.0.1:3080"
 license=('MIT')
 depends=('sh' 'electron43' 'hicolor-icon-theme')
+optdepends=(
+  'uwsm: Launch inside Universal Wayland Session Manager graphical slice on Hyprland'
+)
 source=(
   "main.cjs"
   "package.json"
@@ -15,20 +18,20 @@ source=(
   "icon.png"
 )
 sha256sums=(
-  'fab5eff63405e58fee6315d9480c35b9709430fe8b5cdf10a528f1d42d06a593'
-  'f52d0b4ce77c41177041c2b0397c7384184d273bd328a7930d33012e34716598'
+  '1594a145e65d5488e589aaa623a515fcd53e8740df140c6da6ad2a4e0f0c0d42'
+  '772f0bfeea1a0064682ea19e919b682ae8191731e04c1f6d79187846ff115fe6'
   '06385279283f6d8bb288ae27b0e17b860f10dd2b00272e64817580a0c9c5e70c'
   '831e772c92b01b85ff8432eb2cc9a46dd5ccae2b61de7813eee9036ce88d0359'
   '35e1264d00286ad5bc2757bd8c0cc64daad357c299558548b3425474e5a2e9b2'
 )
 
 package() {
-  install -dm755 "$pkgdir/usr/lib/dsh-pwa/assets"
-  install -Dm644 "$srcdir/main.cjs" "$pkgdir/usr/lib/dsh-pwa/main.cjs"
-  install -Dm644 "$srcdir/package.json" "$pkgdir/usr/lib/dsh-pwa/package.json"
-  install -Dm644 "$srcdir/icon.png" "$pkgdir/usr/lib/dsh-pwa/assets/icon.png"
+  install -dm755 "${pkgdir}/usr/lib/${pkgname}/assets"
+  install -Dm644 "${srcdir}/main.cjs" "${pkgdir}/usr/lib/${pkgname}/main.cjs"
+  install -Dm644 "${srcdir}/package.json" "${pkgdir}/usr/lib/${pkgname}/package.json"
+  install -Dm644 "${srcdir}/icon.png" "${pkgdir}/usr/lib/${pkgname}/assets/icon.png"
 
-  install -Dm755 "$srcdir/dsh-pwa.sh" "$pkgdir/usr/bin/dsh-pwa"
-  install -Dm644 "$srcdir/dsh-pwa.desktop" "$pkgdir/usr/share/applications/dsh-pwa.desktop"
-  install -Dm644 "$srcdir/icon.png" "$pkgdir/usr/share/icons/hicolor/512x512/apps/dsh-pwa.png"
+  install -Dm755 "${srcdir}/dsh-pwa.sh" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm644 "${srcdir}/dsh-pwa.desktop" "${pkgdir}/usr/share/applications/${pkgname}.desktop"
+  install -Dm644 "${srcdir}/icon.png" "${pkgdir}/usr/share/icons/hicolor/256x256/apps/${pkgname}.png"
 }

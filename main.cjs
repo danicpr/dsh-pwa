@@ -197,6 +197,20 @@ function resolveDshBinary() {
       }
     }
   } catch {}
+  const nvmVersionsDir = path.join(HOME, ".nvm", "versions", "node");
+  try {
+    if (fs.existsSync(nvmVersionsDir)) {
+      const versions = fs.readdirSync(nvmVersionsDir).sort().reverse();
+      for (const ver of versions) {
+        const candidate = path.join(nvmVersionsDir, ver, "bin", "dsh");
+        if (fs.existsSync(candidate)) return candidate;
+      }
+    }
+  } catch {}
+  const pnpmBin = path.join(HOME, ".local", "share", "pnpm", "dsh");
+  if (fs.existsSync(pnpmBin)) {
+    return pnpmBin;
+  }
   const localBin = path.join(HOME, ".local", "bin", "dsh");
   if (fs.existsSync(localBin)) {
     return localBin;
@@ -309,15 +323,43 @@ function startDshWebServer(targetOrigin, port) {
     const dshBin = resolveDshBinary();
     const dshBinDir = path.isAbsolute(dshBin) ? path.dirname(dshBin) : null;
     const localBinDir = path.join(HOME, ".local", "bin");
+    const rawPathParts = process.env.PATH ? process.env.PATH.split(path.delimiter) : [];
+    const cleanPathParts = rawPathParts.filter(
+      (p) => p && !p.startsWith("/tmp/.mount_") && (!process.env.APPDIR || !p.startsWith(process.env.APPDIR))
+    );
     const pathParts = [
       localBinDir,
       ...(dshBinDir ? [dshBinDir] : []),
-      ...(process.env.PATH ? process.env.PATH.split(path.delimiter) : [])
+      ...cleanPathParts
     ];
     const childEnv = {
       ...process.env,
       PATH: Array.from(new Set(pathParts)).join(path.delimiter)
     };
+    // Strip AppImage runtime variables so 'dsh web' and tools it spawns (gio, nvim, etc.)
+    // never inherit bundled AppImage libraries.
+    for (const key of [
+      "LD_LIBRARY_PATH",
+      "LD_PRELOAD",
+      "APPIMAGE",
+      "APPDIR",
+      "OWD",
+      "ARGV0",
+      "GDK_PIXBUF_MODULE_FILE",
+      "GDK_PIXBUF_MODULEDIR",
+      "GIO_MODULE_DIR",
+      "GIO_EXTRA_MODULES",
+      "GTK_PATH",
+      "GTK_EXE_PREFIX",
+      "GTK_DATA_PREFIX",
+      "GSETTINGS_SCHEMA_DIR",
+      "QT_PLUGIN_PATH",
+      "PERLLIB",
+      "PYTHONHOME",
+      "PYTHONPATH"
+    ]) {
+      delete childEnv[key];
+    }
 
     const child = spawn(
       dshBin,

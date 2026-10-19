@@ -1,8 +1,54 @@
 {
   "name": "dsh-pwa",
   "productName": "DeepSeek Harness",
+  "desktopName": "dsh-pwa.desktop",
   "version": "1.2.0",
   "description": "Dedicated Electron PWA wrapper for DeepSeek Harness Web with 100% Wallpaper Engine compatibility and System Tray support",
+  "homepage": "https://github.com/danicpr/dsh-pwa",
+  "author": "Daniel Borre <danisecundarioxd@gmail.com>",
+  "license": "MIT",
   "main": "main.cjs",
-  "private": true
+  "scripts": {
+    "start": "electron .",
+    "build:appimage": "electron-builder --linux AppImage",
+    "build:rpm": "electron-builder --linux rpm"
+  },
+  "build": {
+    "appId": "ai.deepseek.dsh-pwa",
+    "productName": "DeepSeek Harness",
+    "executableName": "dsh-pwa",
+    "electronVersion": "43.7.11",
+    "files": [
+      "main.cjs",
+      "package.json",
+      "assets/**/*"
+    ],
+    "linux": {
+      "target": [
+        "AppImage",
+        "rpm"
+      ],
+      "syncDesktopName": true,
+      "icon": "assets/icon.png",
+      "category": "Development",
+      "synopsis": "Dedicated Electron PWA wrapper for DeepSeek Harness Web",
+      "desktop": {
+        "entry": {
+          "Name": "DeepSeek Harness",
+          "Comment": "Dedicated Electron PWA for DeepSeek Harness Web with Wallpaper Engine & System Tray support",
+          "StartupWMClass": "dsh-pwa",
+          "Keywords": "dsh;deepseek;harness;ai;agent;wallpaper;"
+        }
+      }
+    },
+    "appImage": {
+      "artifactName": "${name}-${version}-${arch}.${ext}"
+    },
+    "rpm": {
+      "artifactName": "${name}-${version}-${arch}.${ext}"
+    }
+  },
+  "devDependencies": {
+    "electron-builder": "^26.15.3"
+  }
 }
