@@ -1,0 +1,8 @@
+{
+  "name": "dsh-pwa",
+  "productName": "DeepSeek Harness",
+  "version": "1.2.0",
+  "description": "Dedicated Electron PWA wrapper for DeepSeek Harness Web with 100% Wallpaper Engine compatibility and System Tray support",
+  "main": "main.cjs",
+  "private": true
+}

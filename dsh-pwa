@@ -1,0 +1,38 @@
+#!/usr/bin/env sh
+set -eu
+
+# Clean any AppImage library pollution
+unset LD_LIBRARY_PATH
+unset LD_PRELOAD
+export PATH="$HOME/.local/bin:$HOME/.local/share/fnm/aliases/default/bin:$PATH"
+
+ELECTRON_BIN=""
+for candidate in electron43 electron electron42 electron41 electron40 electron39 electron38; do
+  if command -v "$candidate" >/dev/null 2>&1; then
+    ELECTRON_BIN="$(command -v "$candidate")"
+    break
+  fi
+done
+
+if [ -z "$ELECTRON_BIN" ]; then
+  echo "Error: No se encontró 'electron' ni 'electron43' instalado." >&2
+  exit 1
+fi
+
+if [ -d "/usr/lib/dsh-pwa" ]; then
+  APP_DIR="/usr/lib/dsh-pwa"
+else
+  APP_DIR="$HOME/vibe/dsh-pwa"
+fi
+
+# If not yet inside UWSM's graphical systemd slice, launch via 'uwsm app --'
+if command -v uwsm >/dev/null 2>&1 && [ -z "${DSH_PWA_UNDER_UWSM:-}" ]; then
+  if ! grep -q "graphical\.slice" /proc/self/cgroup 2>/dev/null; then
+    if systemctl --user is-active --quiet graphical-session.target 2>/dev/null; then
+      export DSH_PWA_UNDER_UWSM=1
+      exec uwsm app -- "$ELECTRON_BIN" "$APP_DIR" "$@"
+    fi
+  fi
+fi
+
+exec "$ELECTRON_BIN" "$APP_DIR" "$@"

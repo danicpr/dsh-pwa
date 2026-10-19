@@ -1,0 +1,22 @@
+pkgbase = dsh-pwa
+	pkgdesc = Dedicated Electron PWA wrapper for DeepSeek Harness Web with 100% Wallpaper Engine compatibility and System Tray support
+	pkgver = 1.2.0
+	pkgrel = 1
+	url = https://github.com/deepseek-ai
+	arch = any
+	license = MIT
+	depends = sh
+	depends = electron43
+	depends = hicolor-icon-theme
+	source = main.cjs
+	source = package.json
+	source = dsh-pwa.sh
+	source = dsh-pwa.desktop
+	source = icon.png
+	sha256sums = fab5eff63405e58fee6315d9480c35b9709430fe8b5cdf10a528f1d42d06a593
+	sha256sums = f52d0b4ce77c41177041c2b0397c7384184d273bd328a7930d33012e34716598
+	sha256sums = 06385279283f6d8bb288ae27b0e17b860f10dd2b00272e64817580a0c9c5e70c
+	sha256sums = 831e772c92b01b85ff8432eb2cc9a46dd5ccae2b61de7813eee9036ce88d0359
+	sha256sums = 35e1264d00286ad5bc2757bd8c0cc64daad357c299558548b3425474e5a2e9b2
+
+pkgname = dsh-pwa

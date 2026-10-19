@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DeepSeek Harness
+GenericName=AI Coding Agent
+Comment=DeepSeek Harness Web GUI (Wallpaper Engine Compatible PWA)
+Exec=/usr/bin/dsh-pwa %U
+Terminal=false
+Icon=dsh-pwa
+Categories=Development;IDE;Utility;
+StartupWMClass=dsh-pwa
+StartupNotify=true

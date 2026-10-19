@@ -1,0 +1,13 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=DeepSeek Harness
+GenericName=AI Coding Agent Web GUI
+Comment=Aplicación dedicada (Electron 43 PWA) para DeepSeek Harness compatible con Wallpaper Engine
+Exec=uwsm app -- /home/dev/.local/bin/dsh-pwa %U
+Icon=dsh-pwa
+Terminal=false
+Categories=Development;Utility;
+StartupNotify=true
+StartupWMClass=dsh-pwa
+Keywords=dsh;deepseek;harness;ai;agent;wallpaper;
