@@ -1,3 +1,5 @@
 node_modules/
 pkgbuild/src/
 pkgbuild/pkg/
+*.pkg.tar*
+*.log
